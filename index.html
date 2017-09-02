@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" ng-app = 'myApp'>
+<head>
+    <meta charset="UTF-8">
+
+    <title></title>
+    <script src="./scripts/vendor/angular.js"></script>
+    <script src="./scripts/vendor/angular-local-storage.js"></script>
+    <script src="./scripts/vendor/lodash.js"></script>
+    <script src="./scripts/app/app.js"></script>
+</head>
+<body ng-controller = 'studentController'>
+    <h2>Add new student</h2>
+    <div>
+    <span>First name</span>
+    <input type="text" ng-model = "firstName" ng-disabled = "allStudents.length>10">
+    </div>
+
+    <div>
+    <span>Last name</span>
+    <input type="text" ng-model = "lastName" ng-disabled = "allStudents.length>10">
+    </div>
+
+    <div>Gender</div>
+    <input type="radio" ng-model = "gender" value = "M" ng-disabled = "allStudents.length > 10">Male <br>
+    <input type="radio" ng-model = "gender" value = "F" ng-disabled = "allStudents.length > 10">Female <br>
+
+    <button ng-click = "addNewStudent()" ng-disabled ="!(firstName && lastName && gender)">Submit</button>
+    
+    <h2>Student list</h2>
+    <span>Search:</span>
+    <input type="text" ng-model = "search"><br>
+    <input type="checkbox" ng-model = "hideMale" ng-change = "showOrHideStudents">Hide male students<br>
+    <input type="checkbox" ng-model = "hideFemale">Hide female students<br>
+    <div ng-repeat = "student in getFilteredStudents() | orderBy: 'dateOfEntry': true | orderBy: 'gender': true" ng-hide = "hideMale && student.gender === 'M' || hideFemale && student.gender === 'F'">{{student.firstName}} {{student.lastName}}, {{student.gender}}, enrolled {{student.dateOfEntry | date:'medium'}}</div>
+    </body>
+</html>
